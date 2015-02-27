@@ -7,7 +7,7 @@ var options = nomnom.options({
     task: {
       position: 0,
       help: "This is the task you are going to do. When the pomodoro is" +
-        "complete it will say the time is done on that task",
+        "complete it will say the time is done on that task"
     }
     , add: {
       abbr: 'a'
@@ -36,11 +36,24 @@ var options = nomnom.options({
       , abbr: 'v'
       , help: "writes the version to the screen"
     }
+    , sound: {
+    	flag: true,
+    	abbr: 'snd',
+    	help: 'enables sounds for mind concentration during pomodoro session'
+    }
   }).parse();
 
 var pomodoro = new Pomodoro();
+console.log(JSON.stringify(options));
+
+if (options.sound){
+	pomodoro.sound = options.sound;
+	delete options.sound;
+}
+
+
 if (!options.add && !options.remove && !options.show && !options.start && !options.break) {
-  pomodoro.run(options._.join(' '));
+  pomodoro.run(options._.join(' '), pomodoro.sound);
 }
 
 if (options.add) {
